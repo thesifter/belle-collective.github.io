@@ -1,3 +1,6 @@
+Absolutely, Damen—here’s the full raw HTML with everything baked in: hero logo, modal gallery, and swipe-to-dismiss. Clean, production-ready, and vanilla.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +15,17 @@
       background-color: #f6f3ef;
       color: #333;
     }
-  header {
-    background-color: #eae4db;
-    padding: 3rem 1rem;
-    text-align: center;
-  }
-  
-  header img.logo {
-    max-width: 300px;
-    width: 100%;
-    height: auto;
-    margin-bottom: 2rem;
-  }
+    header {
+      background-color: #eae4db;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    header img.logo {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 2rem;
+    }
     header h1 {
       font-family: 'Playfair Display', serif;
       font-size: 2.5rem;
@@ -55,6 +57,28 @@
       max-width: 180px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      touch-action: none;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 6px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      background: white;
+      transition: transform 0.2s ease;
     }
     .contact-info p, .hours p {
       margin: 0.3rem 0;
@@ -107,5 +131,55 @@
   <footer>
     <p>Surprise site concept by Damen Hansen · Built with love for Belle Collective</p>
   </footer>
+
+  <!-- Image Modal -->
+  <div id="imgModal" class="modal">
+    <img id="modalImg" />
+  </div>
+
+  <script>
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const galleryImgs = document.querySelectorAll('.gallery img');
+
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    galleryImgs.forEach(img => {
+      img.addEventListener('click', () => {
+        modalImg.src = img.src;
+        modal.style.display = 'flex';
+      });
+    });
+
+    modal.addEventListener('touchstart', e => {
+      touchStartY = e.changedTouches[0].screenY;
+    });
+
+    modal.addEventListener('touchend', e => {
+      touchEndY = e.changedTouches[0].screenY;
+      const swipeDistance = touchEndY - touchStartY;
+
+      if (swipeDistance > 60) {
+        closeModal();
+      }
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal || e.target === modalImg) {
+        closeModal();
+      }
+    });
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modalImg.src = '';
+      touchStartY = 0;
+      touchEndY = 0;
+    }
+  </script>
 </body>
 </html>
+```
+
+Let me know if you want to wrap this up into a ZIP with images again or deploy a demo for quick preview.
